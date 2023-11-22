@@ -273,7 +273,7 @@ fn instructions() {
     sleep(Duration::from_millis(500));
     println!("Bosses get stronger after every fight!");
     sleep(Duration::from_millis(500));
-    println!("You will need to destroy the boss's shield first, in order to kill them.")
+    println!("You will need to destroy the boss's shield first, in order to kill them.");
     println!("--------------------------------");
     println!("Option 1: Back to Menu");
     println!("--------------------------------");
