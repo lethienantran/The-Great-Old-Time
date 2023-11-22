@@ -272,6 +272,8 @@ fn instructions() {
     println!("You will also need gold to heal yourself after every fight.");
     sleep(Duration::from_millis(500));
     println!("Bosses get stronger after every fight!");
+    sleep(Duration::from_millis(500));
+    println!("You will need to destroy the boss's shield first, in order to kill them.")
     println!("--------------------------------");
     println!("Option 1: Back to Menu");
     println!("--------------------------------");
@@ -398,6 +400,13 @@ fn buy_buff(player: &mut Player) {
     shop(player.clone());
 }
 
+// Function: heal_player_health
+// Description: Allows the player to heal their health by 50% in exchange for gold. Checks if the player has enough gold,
+//              deducts the cost from their gold, and updates the player's health. Displays healing information, cost,
+//              remaining gold, and a receipt. Saves the updated player data.
+// Parameters:
+//    - player: A mutable reference to the Player struct representing the player's character.
+// Returns: None
 fn heal_player_health(mut player: Player) {
     // Calculate the cost to heal 50 health
     let cost = player.level * 2; 
@@ -442,6 +451,21 @@ fn heal_player_health(mut player: Player) {
     shop(player.clone());
 }
 
+/// # Function: fight_boss_act
+///
+/// # Description:
+/// Initiates a battle with a boss. Reads boss data from the 'bossStats.json' file,
+/// displays the story, and prompts the player to fight or escape. Handles the battle
+/// sequence, calculating damage, updating health, and providing feedback to the player.
+/// Manages critical hits, defends, and calculates gold earned. Checks for player defeat
+/// or boss defeat conditions, updates player stats, and generates a new boss if the
+/// current boss is defeated.
+///
+/// # Parameters:
+/// - `player`: A mutable reference to the Player struct representing the player's character.
+///
+/// # Returns:
+/// None
 fn fight_boss_act(mut player: Player) {
     // Try to open the bossStats.json file 
     let file_result = File::open("./src/bossStats.json");
@@ -492,6 +516,7 @@ fn fight_boss_act(mut player: Player) {
                         println!("Your current health: {}", player.health);
                         sleep(Duration::from_millis(500));
                         println!("{}'s current health: {}", boss.name, boss.health);
+                        println!("{}'s current shield: {}", boss.name, boss.defense);
                         save_player_data(&player);
 
                         // Check if the player is defeated
@@ -564,6 +589,7 @@ fn fight_boss_act(mut player: Player) {
                                     println!("Your current health: {}", player.health);
                                 }
 
+                                // Earn gold based on player's level
                                 let gold_earned = range.gen_range(player.level..=player.level*2);
                                 player.gold += gold_earned;
 
@@ -571,6 +597,7 @@ fn fight_boss_act(mut player: Player) {
                                 sleep(Duration::from_millis(500));
                                 println!("{} dropped {} gold for you.", boss.name, gold_earned);
 
+                                // Save boss and player data
                                 save_boss_data(&boss); 
                                 save_player_data(&player);
 
@@ -599,6 +626,7 @@ fn fight_boss_act(mut player: Player) {
                                         save_player_data(&player);
                                     }
 
+                                    // Generate a new boss for the player
                                     generate_new_boss(&player);
                                 }
                             }
@@ -621,6 +649,17 @@ fn fight_boss_act(mut player: Player) {
     }
 }
 
+/// # Function: show_stats
+///
+/// # Description:
+/// Displays the player's statistics and information, including name, level, health, attack,
+/// defense, gold, experience, and a list of defeated bosses. Pauses between each stat for better readability.
+///
+/// # Parameters:
+/// - `player`: A Player struct representing the player's character.
+///
+/// # Returns:
+/// None
 fn show_stats(player: Player){
     println!("--------------------------------");
     println!("My Stats & Information");
@@ -653,12 +692,25 @@ fn show_stats(player: Player){
     continue_game();
 }
 
+/// # Function: level_up
+///
+/// # Description:
+/// Increases the player's level, updates their stats (health, attack, defense) accordingly,
+/// and saves the new player data. Displays a congratulatory message to the player.
+///
+/// # Parameters:
+/// - `player`: A Player struct representing the player's character before leveling up.
+///
+/// # Returns:
+/// None
 fn level_up(player: Player) {
+    // Calculate remaining experience after leveling up
     let mut current_exp = 0;
     if player.current_exp != player.current_lv_exp {
         current_exp = player.current_exp - player.current_lv_exp;
     }
 
+    // Create a new Player struct with updated stats
     let new_data = Player {
         name: player.name,
         max_health: player.max_health + player.level * 10,
@@ -672,12 +724,25 @@ fn level_up(player: Player) {
         boss_defeated: player.boss_defeated
     };
 
+    // Save the updated player data
     save_player_data(&new_data);
+    // Display a congratulatory message to the player
     println!("--------------------------------");
     sleep(Duration::from_millis(500));
     println!("Congratulations! You have reached to level {}.", new_data.level);
 }
 
+/// # Function: generate_new_boss
+///
+/// # Description:
+/// Generates a new boss with random attributes and a random name from a predefined list.
+/// Saves the new boss data and notifies the player about the appearance of the new boss.
+///
+/// # Parameters:
+/// - `player`: A reference to the Player struct representing the player's character.
+///
+/// # Returns:
+/// None
 fn generate_new_boss(player: &Player) {
     let mut range = rand::thread_rng();
 
@@ -847,19 +912,23 @@ fn generate_new_boss(player: &Player) {
     let random_name = boss_names.choose(&mut range).expect("Failed to choose a random name").to_string();
 
     // Define the range for boss attributes based on your game's design
-    let boss_attack = player.defense + 5; // Adjust the range as needed
+    // TODO: Boss Stats may need to adjust for more balance.
+    let boss_attack = player.defense + 5;
     let boss_health = player.level * 2 + player.health / 2;
     let boss_defense = player.attack * range.gen_range(2..=10); 
 
+    // Create a new Boss struct with random attributes
     let new_boss = Boss {
         name: random_name.clone(),
-        health: range.gen_range(boss_health * 5..=boss_health * 10), // Adjust the range as needed
-        attack: range.gen_range(boss_attack..=boss_attack + 10), // Adjust the range as needed
+        health: range.gen_range(boss_health * 5..=boss_health * 10),
+        attack: range.gen_range(boss_attack..=boss_attack + 10), 
         defense: range.gen_range(boss_defense-player.attack..=boss_defense + player.attack),
-        level: range.gen_range(player.level.saturating_sub(2)..=player.level + 2), // Random level around player's level
+        level: range.gen_range(player.level.saturating_sub(2)..=player.level + 2), 
     };
 
+    // Save the new boss data
     save_boss_data(&new_boss);
+    // Notify the player about the appearance of the new boss
     println!("--------------------------------");
     sleep(Duration::from_millis(500));
     println!("A new boss named {} has appeared!", random_name);
@@ -868,5 +937,6 @@ fn generate_new_boss(player: &Player) {
     sleep(Duration::from_millis(500));
     println!("Back to village for healing...");
     sleep(Duration::from_millis(500));
+    //Reset to game menu to start with updated player profile
     continue_game();
 }
