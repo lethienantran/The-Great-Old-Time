@@ -15,10 +15,10 @@
 <h3>How to run the program?</h3>
 <p>Before perform all the steps below, you must ensure that you have installed Rust on your machine. After that, turn on your terminal and let's get started: </p>
 <ol>
-  <li>Run Command: git clone https://github.com/lethienantran/The-Great-Old-Time.git</li>
+  <li>Run Command: <code>git clone https://github.com/lethienantran/The-Great-Old-Time.git</code></li>
   <li>Locate to the local repository that you have cloned.</li>
-  <li>Run Command: cargo build</li>
-  <li>Run Command: cargo run</li>
+  <li>Run Command: <code>cargo build</code></li>
+  <li>Run Command: <code>cargo run</code></li>
 </ol>
 <p>Easy, right? You're good to go and enjoy the game!</p>
 <h3>Challenges</h3>
