@@ -21,6 +21,8 @@
   <li>Run Command: cargo run</li>
 </ol>
 <p>Easy, right? You're good to go and enjoy the game!</p>
+<h3>Challenges</h3>
+<p>Rust is quite new to me. I am in a learning process in programming in Rust. First of all, I have tried a lot of ways and read a lot of documents to put struct in different files, but somehow I can't do it (Maybe I haven't research about it much). Secondly, I tried to do in an object-oriented way, so that the code is more organized and meaningful, however, it is a challenge for me to do in Rust. Last but not least, finish this game in 2 hours is also really a challenge to me. Haha! However, the game turns out working and I really like it. It helps me understand more about Rust and the concept of low level language.</p>
 <h3>Screenshots</h3>
 <h4>Welcome Screen & New Game Screen</h4>
 <img src="https://github.com/lethienantran/The-Great-Old-Time/assets/114910291/02ce281e-fa7c-4335-a2e9-320ac91af589"/>
