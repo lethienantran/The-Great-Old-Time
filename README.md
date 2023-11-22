@@ -11,7 +11,7 @@
   </ul>
 </p>
 <p>In order to make an option, you just need to type number. For example: if there is Option 1: Start New Game, then you just need to input 1. </p>
-<p>The player has a choice to keep continue playing even when they won the game.</p>
+<p>The player has a choice to keep continue playing even when they won the game. Don't worry, the game will be saved locally in your folder once you run the program and play.</p>
 <h3>How to run the program?</h3>
 <p>Before perform all the steps below, you must ensure that you have installed Rust on your machine. After that, turn on your terminal and let's get started: </p>
 <ol>
