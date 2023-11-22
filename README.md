@@ -32,5 +32,5 @@
 <img src="https://github.com/lethienantran/The-Great-Old-Time/assets/114910291/7e30517f-2a5a-4bd2-bb64-b3a71d69edaa"/>
 <h4>Boss Defeated & Level Up Screen</h4>
 <img src="https://github.com/lethienantran/The-Great-Old-Time/assets/114910291/ab4f3d56-ee44-4289-92c4-4439f8e325ae"/>
-<h4>Get Player's Stats Screen</h4>
+<h4>Get Player's Stats & Shop Screen</h4>
 <img src="https://github.com/lethienantran/The-Great-Old-Time/assets/114910291/63074305-62e3-4c6e-aef1-9c8b4484f153"/>
